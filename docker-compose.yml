@@ -1,0 +1,24 @@
+# docker-compose.yml
+version: '3.8' # Указываем версию Docker Compose.
+
+services:
+  # Сервис для RabbitMQ
+  rabbitmq:
+    image: rabbitmq:3.11.0-management # Используем указанный образ и тег
+    hostname: rabbitmq                 # Имя хоста внутри контейнера (для внутренних нужд)
+    container_name: rabbitmq           # Конкретное имя контейнера, чтобы легче было его найти
+    ports:
+      - "5672:5672"                    # Пробрасываем порт AMQP: <порт_на_хосте>:<порт_в_контейнере>
+      - "15672:15672"                  # Пробрасываем порт для Management UI: <порт_на_хосте>:<порт_в_контейнере>
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq # Монтируем именованный том для персистентности данных
+    restart: unless-stopped            # Контейнер будет автоматически перезапускаться при перезапуске Docker
+    environment: # Переменные окружения для RabbitMQ.
+      # Устанавливают дефолтного пользователя-администратора при первом запуске.
+      RABBITMQ_DEFAULT_USER: peters    # Соответствует spring.rabbitmq.username из твоего application.properties
+      RABBITMQ_DEFAULT_PASS: root      # Соответствует spring.rabbitmq.password из твоего application.properties
+
+# Определение именованных томов для персистентного хранения данных
+volumes:
+  rabbitmq_data: # Данные RabbitMQ (очереди, настройки, сообщения) будут храниться здесь.
+  # Docker сам создаст этот том при первом запуске.
