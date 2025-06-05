@@ -8,7 +8,6 @@ import org.springframework.context.event.EventListener;
 
 @Slf4j
 @SpringBootApplication
-//@RequiredArgsConstructor
 public class DispatcherApplication {
 
 	public static void main(String[] args) {

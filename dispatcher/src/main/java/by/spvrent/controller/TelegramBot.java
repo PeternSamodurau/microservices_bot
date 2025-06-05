@@ -1,12 +1,14 @@
+// by/spvrent/controller/TelegramBot.java
 package by.spvrent.controller;
 
-import by.spvrent.configuration.BotConfig;
+import by.spvrent.configuration.BotConfigurationProperties;
+import by.spvrent.service.UpdateProducer;
+import by.spvrent.utils.MessageUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
@@ -15,7 +17,8 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 @RequiredArgsConstructor
 public class TelegramBot extends TelegramLongPollingBot {
 
-    private final BotConfig botConfig;
+    private final BotConfigurationProperties botConfig;
+    private final UpdateProducer updateProducer;
 
     @Override
     public String getBotUsername() {
@@ -29,20 +32,11 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        if (!update.hasMessage() || !update.getMessage().hasText()) {
-            return;
-        }
-
-        Message request = update.getMessage();
-        log.info("Received message: {}", request.getText());
-
-        SendMessage response = new SendMessage();
-        response.setChatId(request.getChatId().toString());
-        response.setText("Hello from bot !!!");
-        sendAnswerMessage(response);
+        UpdateController updateController = new UpdateController(this, new MessageUtils(), updateProducer);
+        updateController.processUpdate(update);
     }
 
-    private void sendAnswerMessage(SendMessage sendMessage) {
+    public void sendAnswerMessage(SendMessage sendMessage) {
         try {
             execute(sendMessage);
         } catch (TelegramApiException e) {

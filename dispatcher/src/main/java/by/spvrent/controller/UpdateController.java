@@ -1,13 +1,95 @@
+// by/spvrent/controller/UpdateController.java
 package by.spvrent.controller;
 
+import by.spvrent.service.UpdateProducer;
+import by.spvrent.utils.MessageUtils;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.Update;
 
-@Component
+import static by.spvrent.model.RabbitQueue.*;
+
 @Slf4j
+@Component
+@RequiredArgsConstructor
 public class UpdateController {
 
-    private TelegramBot telegramBot;
+    private final TelegramBot telegramBot;
+    private final MessageUtils messageUtils;
+    private final UpdateProducer updateProducer;
 
+    public void processUpdate(Update update) {
+        if (update == null) {
+            log.error("Received update is null");
+            return;
+        }
+        if (update.getMessage() != null) {
+            distributeMessageByType(update);
+        } else {
+            log.error("Unsupported message type is received: " + update);
+        }
+    }
 
+    private void distributeMessageByType(Update update) {
+
+        Message request = update.getMessage();
+
+        if (request.hasText()) {
+            processTextMessage(update);
+        } else if (request.getDocument() != null) {
+            processDocumentMessage(update);
+        } else if (request.getPhoto() != null) {
+            processPhotoMessage(update);
+        } else {
+            setUnsupportedMessageTypeView(update);
+        }
+    }
+
+    private void setUnsupportedMessageTypeView(Update update) {
+        SendMessage sendMessage = messageUtils.generateSendMessageWithText(update,
+                "Неподдерживаемый тип сообщения!");
+        setView(sendMessage);
+    }
+
+    private void setView(SendMessage sendMessage) {
+
+        telegramBot.sendAnswerMessage(sendMessage);
+    }
+
+    private void processPhotoMessage(Update update) {
+
+        updateProducer.producer(PHOTO_MESSAGE_UPDATE, update);
+        setFileIsReceivedView(update);
+    }
+
+    private void processDocumentMessage(Update update) {
+
+        updateProducer.producer(DOC_MESSAGE_UPDATE, update);
+
+    }
+
+    private void setFileIsReceivedView(Update update) {
+
+        SendMessage sendMessage = messageUtils.generateSendMessageWithText(update,
+                "Файл получен! Обрабатывается ...");
+        setView(sendMessage);
+    }
+
+    private void processTextMessage(Update update) {
+
+        Message message = update.getMessage();
+        String text = message.getText();
+        String chatId = message.getChatId().toString();
+
+        log.info("Text message: {} from {}", text, chatId);
+
+        SendMessage sendMessage = messageUtils.generateSendMessageWithText(update, "Hello from bot!!!");
+        setView(sendMessage);
+
+        updateProducer.producer(TEXT_MESSAGE_UPDATE, update);
+
+    }
 }

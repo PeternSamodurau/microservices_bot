@@ -7,6 +7,11 @@
         <compositeConfiguration>
           <compositeBuild compositeDefinitionSource="SCRIPT">
             <builds>
+              <build path="$PROJECT_DIR$/common-rabbitmq" name="common-rabbitmq">
+                <projects>
+                  <project path="$PROJECT_DIR$/common-rabbitmq" />
+                </projects>
+              </build>
               <build path="$PROJECT_DIR$/dispatcher" name="dispatcher">
                 <projects>
                   <project path="$PROJECT_DIR$/dispatcher" />
@@ -20,6 +25,7 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/common-rabbitmq" />
             <option value="$PROJECT_DIR$/dispatcher" />
           </set>
         </option>
