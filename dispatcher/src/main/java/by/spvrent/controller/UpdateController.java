@@ -54,7 +54,7 @@ public class UpdateController {
         setView(sendMessage);
     }
 
-    private void setView(SendMessage sendMessage) {
+    public void setView(SendMessage sendMessage) {
 
         telegramBot.sendAnswerMessage(sendMessage);
     }
@@ -68,6 +68,7 @@ public class UpdateController {
     private void processDocumentMessage(Update update) {
 
         updateProducer.producer(DOC_MESSAGE_UPDATE, update);
+        setFileIsReceivedView(update);
 
     }
 
@@ -86,8 +87,8 @@ public class UpdateController {
 
         log.info("Text message: {} from {}", text, chatId);
 
-        SendMessage sendMessage = messageUtils.generateSendMessageWithText(update, "Hello from bot!!!");
-        setView(sendMessage);
+//        SendMessage sendMessage = messageUtils.generateSendMessageWithText(update, "Hello from bot!!!");
+//        setView(sendMessage);
 
         updateProducer.producer(TEXT_MESSAGE_UPDATE, update);
 

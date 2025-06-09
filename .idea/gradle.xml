@@ -17,6 +17,11 @@
                   <project path="$PROJECT_DIR$/dispatcher" />
                 </projects>
               </build>
+              <build path="$PROJECT_DIR$/node" name="node">
+                <projects>
+                  <project path="$PROJECT_DIR$/node" />
+                </projects>
+              </build>
             </builds>
           </compositeBuild>
         </compositeConfiguration>
@@ -27,6 +32,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/common-rabbitmq" />
             <option value="$PROJECT_DIR$/dispatcher" />
+            <option value="$PROJECT_DIR$/node" />
           </set>
         </option>
       </GradleProjectSettings>
