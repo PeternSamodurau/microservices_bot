@@ -9,10 +9,14 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 public class MessageUtils {
 
     public SendMessage generateSendMessageWithText(Update update, String text){
+
         Message getMessage = update.getMessage();
         SendMessage sendMessage = new SendMessage();
+
         sendMessage.setChatId(getMessage.getChatId().toString());
+
         sendMessage.setText(text);
+
         return sendMessage;
     }
 }

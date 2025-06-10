@@ -15,9 +15,9 @@ import static by.spvrent.model.RabbitQueue.*;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class UpdateController {
+public class UpdateBotController {
 
-    private final TelegramBot telegramBot;
+    private final TelegramBotController telegramBot;
     private final MessageUtils messageUtils;
     private final UpdateProducer updateProducer;
 
@@ -85,10 +85,7 @@ public class UpdateController {
         String text = message.getText();
         String chatId = message.getChatId().toString();
 
-        log.info("Text message: {} from {}", text, chatId);
-
-//        SendMessage sendMessage = messageUtils.generateSendMessageWithText(update, "Hello from bot!!!");
-//        setView(sendMessage);
+        log.info("Text message from bot: {} from {}", text, chatId);
 
         updateProducer.producer(TEXT_MESSAGE_UPDATE, update);
 

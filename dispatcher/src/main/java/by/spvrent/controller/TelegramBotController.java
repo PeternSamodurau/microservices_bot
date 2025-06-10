@@ -15,7 +15,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class TelegramBot extends TelegramLongPollingBot {
+public class TelegramBotController extends TelegramLongPollingBot {
 
     private final BotConfigurationProperties botConfig;
     private final UpdateProducer updateProducer;
@@ -29,10 +29,11 @@ public class TelegramBot extends TelegramLongPollingBot {
     public String getBotToken() {
         return botConfig.getBotToken();
     }
-
+    // при получении каждого обновления неявно вызывается данный метод
     @Override
     public void onUpdateReceived(Update update) {
-        UpdateController updateController = new UpdateController(this, new MessageUtils(), updateProducer);
+        log.info("Text received in onUpdateReceived: {}", update.getMessage().getText());
+        UpdateBotController updateController = new UpdateBotController(this, new MessageUtils(), updateProducer);
         updateController.processUpdate(update);
     }
 

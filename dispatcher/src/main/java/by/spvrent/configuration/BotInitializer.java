@@ -1,6 +1,6 @@
 package by.spvrent.configuration;
 
-import by.spvrent.controller.TelegramBot;
+import by.spvrent.controller.TelegramBotController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +16,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 public class BotInitializer {
 
     @Autowired
-    private TelegramBot bot;
+    private TelegramBotController bot;
 
     @Autowired
     private TelegramBotsApi telegramBotsApi;

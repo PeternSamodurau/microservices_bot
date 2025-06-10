@@ -28,6 +28,7 @@ public class ConsumerServiceImpl implements ConsumerService {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(message.getChatId().toString());
         sendMessage.setText("Hello from NODE");
+
         producerService.producerAnswer(sendMessage);
     }
 
