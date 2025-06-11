@@ -1,5 +1,6 @@
 package by.spvrent.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
@@ -11,25 +12,17 @@ import static by.spvrent.model.RabbitQueue.*;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class ConsumerServiceImpl implements ConsumerService {
 
-    private final ProducerService producerService;
-
-    public ConsumerServiceImpl(ProducerService producerService) {
-        this.producerService = producerService;
-    }
+    private final MainService mainService;
 
     @Override
     @RabbitListener(queues = TEXT_MESSAGE_UPDATE)
     public void consumeTextMessageUpdate(Update update) {
     log.info("NODE: Text message is received ");
 
-        Message message = update.getMessage();
-        SendMessage sendMessage = new SendMessage();
-        sendMessage.setChatId(message.getChatId().toString());
-        sendMessage.setText("Hello from NODE");
-
-        producerService.producerAnswer(sendMessage);
+    mainService.processTextMessage(update);
     }
 
     @Override

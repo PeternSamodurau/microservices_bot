@@ -32,9 +32,6 @@ dependencies {
     implementation group: 'by.spvrent' , name: 'common-rabbitmq', version: '1.0-SNAPSHOT'
     implementation 'org.springframework.boot:spring-boot-starter-amqp:3.4.5'
 
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.postgresql:postgresql:42.6.0'
-
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
