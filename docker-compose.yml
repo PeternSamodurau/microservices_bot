@@ -18,7 +18,23 @@ services:
       RABBITMQ_DEFAULT_USER: peters    # Соответствует spring.rabbitmq.username из твоего application.properties
       RABBITMQ_DEFAULT_PASS: root      # Соответствует spring.rabbitmq.password из твоего application.properties
 
+  # НОВЫЙ Сервис для PostgreSQL
+  postgres:
+    image: postgres:13                 # Используем образ PostgreSQL версии 13. Можно использовать 'latest' или другую версию.
+    hostname: postgres                 # Имя хоста внутри контейнера
+    container_name: postgres           # Конкретное имя контейнера
+    ports:
+      - "5432:5432"                    # Пробрасываем порт PostgreSQL: <порт_на_хосте>:<порт_в_контейнере>
+    volumes:
+      - postgres_data:/var/lib/postgresql/data # Монтируем именованный том для персистентности данных PostgreSQL
+    restart: unless-stopped            # Контейнер будет автоматически перезапускаться при перезапуске Docker
+    environment: # Переменные окружения для PostgreSQL.
+      POSTGRES_DB: microservices_bot   # Имя базы данных, соответствует spring.datasource.url
+      POSTGRES_USER: peter             # Имя пользователя, соответствует spring.datasource.username
+      POSTGRES_PASSWORD: peter         # Пароль пользователя, соответствует spring.datasource.password
+
 # Определение именованных томов для персистентного хранения данных
 volumes:
   rabbitmq_data: # Данные RabbitMQ (очереди, настройки, сообщения) будут храниться здесь.
-  # Docker сам создаст этот том при первом запуске.
+  postgres_data: # НОВЫЙ ТОМ: Данные PostgreSQL (таблицы, записи) будут храниться здесь.
+  # Docker сам создаст эти тома при первом запуске.
