@@ -1,5 +1,6 @@
-package by.spvrent.service;
+package by.spvrent.service.impl;
 
+import by.spvrent.service.interf.ProducerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
@@ -9,7 +10,7 @@ import static by.spvrent.model.RabbitQueue.ANSWER_MESSAGE;
 
 @Slf4j
 @Service
-public class ProducerServiceImpl implements ProducerService{
+public class ProducerServiceImpl implements ProducerService {
 
     private final RabbitTemplate rabbitTemplate;
 
