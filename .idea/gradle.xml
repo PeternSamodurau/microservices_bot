@@ -7,6 +7,11 @@
         <compositeConfiguration>
           <compositeBuild compositeDefinitionSource="SCRIPT">
             <builds>
+              <build path="$PROJECT_DIR$/common-jpa" name="common-jpa">
+                <projects>
+                  <project path="$PROJECT_DIR$/common-jpa" />
+                </projects>
+              </build>
               <build path="$PROJECT_DIR$/common-rabbitmq" name="common-rabbitmq">
                 <projects>
                   <project path="$PROJECT_DIR$/common-rabbitmq" />
@@ -30,6 +35,7 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/common-jpa" />
             <option value="$PROJECT_DIR$/common-rabbitmq" />
             <option value="$PROJECT_DIR$/dispatcher" />
             <option value="$PROJECT_DIR$/node" />

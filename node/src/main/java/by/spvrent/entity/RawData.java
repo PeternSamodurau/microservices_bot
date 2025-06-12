@@ -1,22 +1,23 @@
 package by.spvrent.entity;
 
-import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
+
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-@Data
+@Slf4j
+@Getter
+@Setter
+@EqualsAndHashCode
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table (name = "raw_data")
-public class RawData {   //необработанные(сарые) даннные
+public class RawData {   //необработанные(сырые) даннные
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

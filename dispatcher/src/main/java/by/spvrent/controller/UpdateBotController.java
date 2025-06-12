@@ -26,7 +26,7 @@ public class UpdateBotController {
             log.error("Received update is null");
             return;
         }
-        if (update.getMessage() != null) {
+        if (update.hasMessage()) {
             distributeMessageByType(update);
         } else {
             log.error("Unsupported message type is received: " + update);
@@ -35,13 +35,13 @@ public class UpdateBotController {
 
     private void distributeMessageByType(Update update) {
 
-        Message request = update.getMessage();
+        Message message = update.getMessage();
 
-        if (request.hasText()) {
+        if (message.hasText()) {
             processTextMessage(update);
-        } else if (request.getDocument() != null) {
+        } else if (message.hasDocument()) {
             processDocumentMessage(update);
-        } else if (request.getPhoto() != null) {
+        } else if (message.hasPhoto()) {
             processPhotoMessage(update);
         } else {
             setUnsupportedMessageTypeView(update);
