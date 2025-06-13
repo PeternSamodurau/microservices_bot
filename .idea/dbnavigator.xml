@@ -25,7 +25,10 @@ SELECT * FROM raw_data;]]></console>
     <last-used-providers />
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files />
+    <open-files>
+      <object connection-id="3cdbecdf-29e7-4758-b78b-11c534fa5233" object-ref="schemas/public/tables/binary_content" />
+      <object connection-id="3cdbecdf-29e7-4758-b78b-11c534fa5233" object-ref="schemas/public/tables/app_document" />
+    </open-files>
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
     <connection id="3cdbecdf-29e7-4758-b78b-11c534fa5233" />
@@ -36,8 +39,18 @@ SELECT * FROM raw_data;]]></console>
         <condition column="id" operator="=" value="" active="true" />
       </filter>
     </filter-actions>
+    <filter-actions connection-id="3cdbecdf-29e7-4758-b78b-11c534fa5233" dataset="public.app_document" active-filter-id="ed016b2b-93ca-4fac-bba6-6efd9d9631d6">
+      <filter id="ed016b2b-93ca-4fac-bba6-6efd9d9631d6" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND">
+        <condition column="id" operator="=" value="" active="true" />
+      </filter>
+    </filter-actions>
     <filter-actions connection-id="3cdbecdf-29e7-4758-b78b-11c534fa5233" dataset="public.app_user" active-filter-id="e1210b53-f4e5-4a75-9e9c-c248e8185ac6">
       <filter id="e1210b53-f4e5-4a75-9e9c-c248e8185ac6" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND">
+        <condition column="id" operator="=" value="" active="true" />
+      </filter>
+    </filter-actions>
+    <filter-actions connection-id="3cdbecdf-29e7-4758-b78b-11c534fa5233" dataset="public.binary_content" active-filter-id="fea75128-1ff8-44a4-83aa-b73e0c364c0a">
+      <filter id="fea75128-1ff8-44a4-83aa-b73e0c364c0a" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND">
         <condition column="id" operator="=" value="" active="true" />
       </filter>
     </filter-actions>

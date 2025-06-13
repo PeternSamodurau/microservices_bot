@@ -1,10 +1,14 @@
 package by.spvrent.service.impl;
 
 import by.spvrent.dao.AppUserDAO;
+import by.spvrent.entity.AppDocument;
 import by.spvrent.entity.AppUser;
 import by.spvrent.dao.RawDataDAO;
 import by.spvrent.entity.AppUserState;
 import by.spvrent.entity.RawData;
+import by.spvrent.exeption.UploadFileException;
+import by.spvrent.service.enums.ServiceCommand;
+import by.spvrent.service.interf.FileService;
 import by.spvrent.service.interf.MainService;
 import by.spvrent.service.interf.ProducerService;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +21,7 @@ import org.telegram.telegrambots.meta.api.objects.User;
 
 import static by.spvrent.entity.AppUserState.BASIC_STATE;
 import static by.spvrent.entity.AppUserState.WAIT_FOR_EMAIL_STATE;
-import static by.spvrent.service.enums.ServiceCommands.*;
+import static by.spvrent.service.enums.ServiceCommand.*;
 
 @Slf4j
 @Service
@@ -27,6 +31,7 @@ public class MainServiceImpl implements MainService {
     private final RawDataDAO rawDataDAO;
     private final ProducerService producerService;
     private final AppUserDAO appUserDAO;
+    private final FileService fileService;
 
     @Override
     @Transactional
@@ -38,7 +43,8 @@ public class MainServiceImpl implements MainService {
         String text = update.getMessage().getText();
         String output = "";
 
-        if (CANCEL.equals(text)){
+        ServiceCommand serviceCommand = ServiceCommand.fromValue(text);
+        if (CANCEL.equals(serviceCommand)){
             output = cancelProcess(appUser);
         }else if (BASIC_STATE.equals(appUserState)){
             output = processServiceComand(appUser,text);
@@ -59,14 +65,22 @@ public class MainServiceImpl implements MainService {
         saveRawData(update);
 
         AppUser appUser = findOrSaveAppUser(update);
-        Long chatID = update.getMessage().getChatId();
+        Long chatId = update.getMessage().getChatId();
 
-        if (isNotAllowToSendContent(chatID,appUser)){
+        if (isNotAllowToSendContent(chatId,appUser)){
             return;
         }
-        //TODO добавить сохранение документа;
-        String answer = "Документ успешно загружен! Ссылка для скачивания: http://test.ru/get-doc/777";
-        sendAnswer(answer,chatID);
+        try {
+            AppDocument doc = fileService.processDoc(update.getMessage());
+
+            var answer = "Документ успешно загружен! "
+                    + "Ссылка для скачивания: " + "http://test.ru/get-doc/777";
+            sendAnswer(answer, chatId);
+        } catch (UploadFileException ex) {
+            log.error("", ex);
+            String error = "К сожалению, загрузка файла не удалась. Повторите попытку позже.";
+            sendAnswer(error, chatId);
+        }
     }
 
     @Override
