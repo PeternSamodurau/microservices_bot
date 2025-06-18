@@ -39,8 +39,8 @@ public class MainServiceImpl implements MainService {
         saveRawData(update);
 
         AppUser appUser = findOrSaveAppUser(update);
-        AppUserState appUserState = appUser.getAppUserState();
-        String text = update.getMessage().getText();
+        AppUserState appUserState = appUser.getAppUserState();  // BASIC_STATE, WAIT_FOR_EMAIL_STATE
+        String text = update.getMessage().getText();       // HELP("/help"), REGISTRATION("/registration"), CANCEL("/cancel"),START("/start");
         String output = "";
 
         ServiceCommand serviceCommand = ServiceCommand.fromValue(text);
@@ -88,6 +88,7 @@ public class MainServiceImpl implements MainService {
         saveRawData(update);
 
         AppUser appUser = findOrSaveAppUser(update);
+
         Long chatID = update.getMessage().getChatId();
 
         if (isNotAllowToSendContent(chatID,appUser)){

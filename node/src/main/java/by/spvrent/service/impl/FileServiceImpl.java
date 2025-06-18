@@ -46,13 +46,15 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public AppDocument processDoc(Message telegramMessage) {
-        var telegramDoc = telegramMessage.getDocument();
+
+        Document telegramDoc = telegramMessage.getDocument();
+
         if (telegramDoc == null) {
             log.warn("Received message did not contain a document. Skipping processing.");
             throw new UploadFileException("Message does not contain a document.");
         }
 
-        var fileId = telegramDoc.getFileId();
+        String fileId = telegramDoc.getFileId();
         ResponseEntity<String> fileInfoResponse;
 
         try {
@@ -82,14 +84,14 @@ public class FileServiceImpl implements FileService {
                 JSONObject jsonObject = new JSONObject(responseBody);
 
                 if (jsonObject.getBoolean("ok")) {
-                    var filePath = jsonObject
+                    String filePath = jsonObject
                             .getJSONObject("result")
                             .getString("file_path");
 
                     log.info("Successfully retrieved file path from Telegram API: {}", filePath);
 
-                    var persistentBinaryContent = getPersistentBinaryContent(filePath);
-                    var transientAppDoc = buildTransientAppDoc(telegramDoc, persistentBinaryContent);
+                    AppBinaryContent persistentBinaryContent = getPersistentBinaryContent(filePath);
+                    AppDocument transientAppDoc = buildTransientAppDoc(telegramDoc, persistentBinaryContent);
                     return appDocumentDAO.save(transientAppDoc);
                 } else {
                     String errorDescription = jsonObject.optString("description", "No description provided.");
@@ -111,8 +113,8 @@ public class FileServiceImpl implements FileService {
     }
 
     private AppBinaryContent getPersistentBinaryContent(String filePath) {
-        var fileInByte = downloadFile(filePath);
-        var transientBinaryContent = AppBinaryContent.builder()
+        byte [] fileInByte = downloadFile(filePath);
+        AppBinaryContent transientBinaryContent = AppBinaryContent.builder()
                 .fileAsArrayOfBytes(fileInByte)
                 .build();
         return binaryContentDAO.save(transientBinaryContent);
@@ -129,9 +131,9 @@ public class FileServiceImpl implements FileService {
     }
 
     private ResponseEntity<String> getFileInfoFromTelegramApi(String fileId) {
-        var restTemplate = new RestTemplate();
-        var headers = new HttpHeaders();
-        var request = new HttpEntity<>(headers);
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity<Object> request = new HttpEntity<>(headers);
 
         String url = fileInfoUri.replace("{bot.token}", token).replace("{fileId}", fileId);
         log.debug("Calling Telegram API to get file info: {}", url);
@@ -145,7 +147,7 @@ public class FileServiceImpl implements FileService {
     }
 
     private byte[] downloadFile(String filePath) {
-        var fullUri = fileStorageUri.replace("{bot.token}", token)
+        String fullUri = fileStorageUri.replace("{bot.token}", token)
                 .replace("{filePath}", filePath);
         URL urlObj = null;
         try {

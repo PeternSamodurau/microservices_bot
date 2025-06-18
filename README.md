@@ -1,139 +1,76 @@
-# Telegram Bot Dispatcher Application
+Моя работа начинается в тот момент, когда вы отправляете мне сообщение. Вот пошаговый процесс, который происходит "за кулисами":
 
-Этот проект представляет собой простое Spring Boot приложение, которое реализует Telegram-бота. Бот получает сообщения от пользователей и может быть настроен для выполнения различных действий в ответ.
+1.  **Вы отправляете сообщение:**
+    *   Вы в своём приложении Telegram пишете сообщение или команду (например, `/start`, `/help`, `/cancel`, `/registration`, или просто отправляете текст, документ, фото) в **конкретный чат со мной**. Для вас это прямое общение с ботом.
 
-## Описание
+2.  **Сообщение поступает в Telegram:**
+    *   Ваше сообщение отправляется с вашего устройства на **серверы Telegram**.
+    *   На этих серверах существует **логическое представление меня (Telegram Bot)**. Именно эта сущность получает сообщение от вас внутри экосистемы Telegram.
+    *   **Telegram API** – это программный интерфейс, который позволяет моему приложению (расположенному на отдельном сервере) взаимодействовать с этим логическим ботом в Telegram. Моё приложение постоянно 'опрашивает' Telegram API на предмет новых сообщений.
 
-Приложение состоит из нескольких ключевых компонентов:
+3.  **Сообщение достигает моего "Диспетчера":**
+    *   Как только на серверах Telegram появляется новое сообщение для меня, оно передается в главный входной узел моего приложения – **Диспетчер**.
+    *   Диспетчер состоит из двух основных частей: **TelegramBotController** (который получает сообщения от Telegram) и **UpdateBotController** (который их маршрутизирует).
 
-*   **`BotConfigurationProperties`**: Класс конфигурации, который загружает имя и токен бота из файла `application.properties`. ([Ссылка на BotConfigurationProperties.java](C:\Users\user\IdeaProjects\microservices_bot\dispatcher\src\main\java\by\spvrent\configuration\BotConfigurationProperties.java))
-*   **`TelegramBotsApiConfig`**: Класс конфигурации, который создает бин `TelegramBotsApi`. ([Ссылка на TelegramBotsApiConfig.java](https://github.com/your-username/your-repo/blob/main/src/main/java/by/spvrent/configuration/TelegramBotsApiConfig.java))
-*   **`BotInitializer`**: Класс, который регистрирует Telegram-бота в API после запуска приложения. ([Ссылка на BotInitializer.java](https://github.com/your-username/your-repo/blob/main/src/main/java/by/spvrent/configuration/BotInitializer.java))
-*   **`TelegramBot`**: Основной класс бота, который получает обновления от Telegram и передает их на обработку. ([Ссылка на TelegramBot.java](https://github.com/your-username/your-repo/blob/main/src/main/java/by/spvrent/controller/TelegramBot.java))
-*   **`UpdateController`**: Класс, который обрабатывает входящие обновления и определяет, как на них реагировать. ([Ссылка на UpdateController.java](https://github.com/your-username/your-repo/blob/main/src/main/java/by/spvrent/controller/UpdateController.java))
-*   **`DispatcherApplication`**: Главный класс приложения Spring Boot. ([Ссылка на DispatcherApplication.java](https://github.com/your-username/your-repo/blob/main/src/main/java/by/spvrent/DispatcherApplication.java))
+4.  **Диспетчер определяет тип сообщения:**
+    *   **UpdateBotController** – это "мозг" Диспетчера. Его задача – определить тип полученного сообщения (текст, документ или фотография), анализируя его содержимое.
+    *   После определения типа, сообщение **немедленно отправляется в специальную очередь** для асинхронной обработки. Это позволяет мне мгновенно освободиться для приема новых сообщений, не дожидаясь окончания всей сложной обработки.
 
-## Архитектура
+5.  **Сообщение поступает в очереди RabbitMQ:**
+    *   Ваше сообщение попадает в одну из следующих **очередей RabbitMQ** (система брокера сообщений), в зависимости от его типа:
+        *   Для текстовых сообщений: `text_message_update`
+        *   Для документов: `doc_message_update`
+        *   Для фотографий: `photo_message_update`
+    *   Существует также очередь `answer_message` для моих ответов вам.
 
-1.  **Получение обновлений:** Пользователь отправляет сообщение боту в Telegram.
-2.  **Обработка обновлений:** Telegram отправляет обновление (объект `Update`) в приложение.
-3.  **Регистрация бота:** `BotInitializer` регистрирует бота в Telegram API после запуска приложения.
-4.  **Диспетчеризация обновлений:** Класс `TelegramBot` получает объект `Update` и передает его в `UpdateController` для обработки.
-5.  **Обработка обновлений:** Класс `UpdateController` принимает объект `Update` и может быть расширен для выполнения различных действий, включая отправку ответов.
+6.  **Начало основной обработки (внутри "NODE"):**
+    *   Как только ваше сообщение оказывается в очереди, его "подхватывает" специальный слушатель – **ConsumerServiceImpl**. Он **неявно** (без прямого вызова из предыдущих частей, Spring сам активирует его) получает сообщение из очереди.
+    *   **ConsumerServiceImpl** передает ваше сообщение в **MainServiceImpl** – это ядро всей моей бизнес-логики.
 
-## Компоненты
+7.  **Сохранение данных и идентификация пользователя:**
+    *   **Всегда, первым делом**, весь полученный от Telegram объект `Update` **сохраняется в базе данных** (в таблице `raw_data`). Это гарантирует, что у меня всегда есть полная запись всех необработанных данных, пришедших от Telegram, что важно для анализа и отладки.
+    *   Затем я пытаюсь **идентифицировать вас как пользователя**:
+        *   Я проверяю свою базу данных (`app_user` таблица) на наличие вашей записи по вашему уникальному идентификатору Telegram.
+        *   **Если вы новый пользователь**, я создаю для вас новую запись в базе данных. По умолчанию ваша учетная запись будет считаться активной (`isActive=true`), и вы будете находиться в **базовом состоянии (`BASIC_STATE`)**.
+        *   **Если вы уже существуете**, я просто загружаю ваши данные из базы.
+    *   После этого я определяю ваше **текущее состояние** (`appUserState`), что важно для понимания контекста вашего сообщения (например, ожидаю ли я от вас ввод email, или вы просто отправляете обычную команду).
 
-### `BotConfigurationProperties`
+8.  **Выполнение логики по сценарию (внутри "NODE" - MainServiceImpl):**
+    Мои дальнейшие действия зависят от типа сообщения и вашего текущего состояния:
 
-Класс `BotConfigurationProperties` отвечает за загрузку конфигурации бота из файла `application.properties`. ([Ссылка на BotConfigurationProperties.java](https://github.com/your-username/your-repo/blob/main/src/main/java/by/spvrent/configuration/BotConfigurationProperties.java))
+    *   **Если вы отправили текстовое сообщение (команду или текст):**
+        *   Я анализирую текст сообщения, учитывая ваше текущее состояние.
+        *   **Если вы находитесь в `BASIC_STATE` (базовом состоянии):**
+            *   **Команда `/start`**: Я формирую приветственное сообщение: "Привет! Чтобы посмотреть список доступных команд введите /help".
+            *   **Команда `/help`**: Я предоставляю вам список доступных команд: "Список доступных команд:\n/cancel - отмена выполнения текущей комады;\n/registration - регистрация пользователя;".
+            *   **Команда `/cancel`**: Я подтверждаю отмену: "Команда отменена!" и убеждаюсь, что ваше состояние сброшено в `BASIC_STATE` в базе данных. Это гарантирует возврат к начальному состоянию, даже если вы уже были в нём.
+            *   **Команда `/registration`**: В текущей версии я сообщаю: "Временно не доступно!".
+            *   **Любая другая команда или обычный текст**: Я отвечаю: "Неизвестная команда! Чтобы посмотреть список доступных команд введите /help".
+        *   **Если вы находитесь в `WAIT_FOR_EMAIL_STATE` (состояние ожидания ввода email):**
+            *   В текущей версии эта функция находится в разработке. Здесь я буду ожидать от вас ввод email для регистрации.
+        *   После этого я перехожу к подготовке ответа.
 
-*   `@Configuration`: Указывает, что это класс конфигурации Spring.
-*   `@PropertySource("classpath:application.properties")`: Указывает, что свойства нужно загружать из файла `application.properties`, находящегося в classpath.
-*   `@Value("${bot.name}")` и `@Value("${bot.token}")`: Аннотации `@Value` используются для внедрения значений свойств `bot.name` и `botToken` соответственно.
-*   `@Data`: Аннотация Lombok, автоматически генерирующая геттеры, сеттеры, `equals()`, `hashCode()` и `toString()`.
+    *   **Если вы отправили документ или фотографию:**
+        *   Я проверяю, что ваша учетная запись активна и вы находитесь в `BASIC_STATE`.
+        *   **Если все условия соблюдены**, я передаю задачу обработки вашего файла специализированному сервису **FileServiceImpl**.
+            *   **FileServiceImpl** скачивает ваш файл из Telegram API (используя его уникальный идентификатор и путь на серверах Telegram) и сохраняет его метаданные, а также само содержимое, в базу данных (`app_document` и `binary_content`).
+        *   После успешного сохранения файла, я формирую для вас подтверждающее сообщение, например: "Документ успешно загружен! Ссылка для скачивания: http://test.ru/get-doc/777" (обратите внимание, ссылки пока являются заглушками).
+        *   После этого я перехожу к подготовке ответа.
 
-### `TelegramBotsApiConfig`
+9.  **Подготовка ответа и его отправка в очередь RabbitMQ:**
+    *   После того как я сформировал окончательный ответ, я создаю объект `SendMessage` (это сообщение, которое будет отправлено вам).
+    *   Этот `SendMessage` объект передается в **ProducerServiceImpl**.
+    *   Задача **ProducerServiceImpl** – отправить этот `SendMessage` в специальную очередь RabbitMQ под названием `answer_message`. Этот шаг вновь происходит асинхронно, позволяя моей основной логике завершиться без задержек.
 
-Класс `TelegramBotsApiConfig` отвечает за создание бина `TelegramBotsApi`. ([Ссылка на TelegramBotsApiConfig.java](https://github.com/your-username/your-repo/blob/main/src/main/java/by/spvrent/configuration/TelegramBotsApiConfig.java))
+10. **Получение ответа из очереди для финальной отправки:**
+    *   Мой сервис **AnswerConsumerImpl** постоянно слушает очередь `answer_message`.
+    *   Как только в этой очереди появляется `SendMessage` объект, **AnswerConsumerImpl** **неявно** его подхватывает.
+    *   Задача **AnswerConsumerImpl** – передать этот `SendMessage` обратно в **UpdateBotController** (который был частью моего Диспетчера).
 
-*   `@Configuration`: Указывает, что это класс конфигурации Spring.
-*   `@Bean`: Аннотация `@Bean` используется для создания бина `TelegramBotsApi`.
+11. **Финальная отправка ответа в Telegram:**
+    *   **UpdateBotController** получает готовый `SendMessage` объект.
+    *   Он делегирует его **TelegramBotController**.
+    *   **TelegramBotController** использует функции библиотеки TelegramBots для выполнения **HTTP-запроса к Telegram API** (то есть, к серверам Telegram), отправляя сформированный `SendMessage` объект.
 
-### `BotInitializer`
-
-Класс `BotInitializer` отвечает за регистрацию бота в Telegram API после запуска приложения. ([Ссылка на BotInitializer.java](https://github.com/your-username/your-repo/blob/main/src/main/java/by/spvrent/configuration/BotInitializer.java))
-
-*   `@Configuration`: Указывает, что это класс конфигурации Spring.
-*   `@Autowired private TelegramBot bot`: Внедрение зависимости `TelegramBot`.
-*   `@Autowired private TelegramBotsApi telegramBotsApi`: Внедрение зависимости `TelegramBotsApi`.
-*   `@PostConstruct registerBot()`: Регистрация бота после инициализации бина.
-
-### `TelegramBot`
-
-Класс `TelegramBot` является основным классом бота. Он получает обновления от Telegram и передает их на обработку. ([Ссылка на TelegramBot.java](https://github.com/your-username/your-repo/blob/main/src/main/java/by/spvrent/controller/TelegramBot.java))
-
-*   `@Slf4j`: Аннотация Lombok, добавляющая logger.
-*   `@Component`: Указывает, что это компонент Spring.
-*   `@RequiredArgsConstructor`: Аннотация Lombok, генерирующая конструктор с аргументами для всех `final` полей.
-*   `TelegramLongPollingBot`: Суперкласс для Telegram-ботов, использующих Long Polling.
-*   `getBotUsername()`: Возвращает имя бота, полученное из `BotConfig`.
-*   `getBotToken()`: Возвращает токен бота, полученный из `BotConfig`.
-*   `onUpdateReceived(Update update)`: Метод, который вызывается при получении нового обновления от Telegram. Здесь происходит создание `UpdateController` и передача ему управления.
-*   `sendAnswerMessage(SendMessage sendMessage)`: Метод для отправки сообщения в Telegram.
-
-### `UpdateController`
-
-Класс `UpdateController` отвечает за обработку входящих обновлений. ([Ссылка на UpdateController.java](https://github.com/your-username/your-repo/blob/main/src/main/java/by/spvrent/controller/UpdateController.java))
-
-*   `@Slf4j`: Аннотация Lombok, добавляющая logger.
-*   `@Component`: Указывает, что это компонент Spring.
-*   `@RequiredArgsConstructor`: Аннотация Lombok, генерирующая конструктор с аргументами для всех `final` полей.
-*   `processUpdate(Update update)`: Метод, который вызывается для обработки обновления.
-    *   Проверяет, что обновление не `null`.
-    *   Вызывает `distributeMessageByType()` для дальнейшей обработки, если обновление содержит сообщение.
-    *   В противном случае, логирует ошибку.
-*   `distributeMessageByType(Update update)`: Метод, который определяет тип сообщения (текст, документ, фото и т.д.) и вызывает соответствующий метод обработки.
-*   `processTextMessage(Update update)`: Метод, который обрабатывает текстовые сообщения.
-    *   Извлекает текст сообщения и ID чата.
-    *   Логирует полученное сообщение.
-    *   Создает объект `SendMessage` с текстом "Hello from bot!!!" (используя `MessageUtils`).
-    *   Вызывает `setView()` для отправки ответа.
-*   `setUnsupportedMessageTypeView(Update update)`: Метод, который вызывается, если тип сообщения не поддерживается. Создает и отправляет сообщение об ошибке.
-*   `setView(SendMessage sendMessage)`: Метод, который отправляет сообщение в Telegram, используя `telegramBot.sendAnswerMessage()`.
-*   `processPhotoMessage(Update update)`: Метод для обработки фото (в текущей версии не реализован).
-*   `processDocumentMessage(Update update)`: Метод для обработки документов (в текущей версии не реализован).
-
-### `DispatcherApplication`
-
-Класс `DispatcherApplication` является главным классом приложения Spring Boot. ([Ссылка на DispatcherApplication.java](https://github.com/your-username/your-repo/blob/main/src/main/java/by/spvrent/DispatcherApplication.java))
-
-*   `@SpringBootApplication`: Аннотация, объединяющая `@Configuration`, `@EnableAutoConfiguration` и `@ComponentScan`.
-*   `main(String[] args)`: Главный метод приложения.
-
-## Зависимости
-
-В проекте используются следующие зависимости:
-
-*   `org.springframework.boot:spring-boot-starter-web`
-*   `org.telegram:telegrambots-spring-boot-starter`
-*   `org.projectlombok:lombok`
-*   `org.slf4j:slf4j-api`
-*   `jakarta.annotation:jakarta.annotation-api`
-
-## Как запустить приложение
-
-1.  **Клонируйте репозиторий:** `git clone [URL репозитория]`
-2.  **Перейдите в директорию проекта:** `cd [директория проекта]`
-3.  **Создайте файл `application.properties` в `src/main/resources`:**
-
-    ```properties
-    bot.name=YourBotName
-    bot.token=YourBotToken
-    ```
-
-    Замените `YourBotName` на имя вашего бота, а `YourBotToken` на токен вашего бота, полученный от BotFather в Telegram.
-4.  **Запустите приложение:** `./gradlew bootRun` (или запустите класс `DispatcherApplication` в вашей IDE).
-
-## Как протестировать приложение
-
-1.  Запустите приложение, как описано выше.
-2.  Найдите своего бота в Telegram по имени пользователя.
-3.  Отправьте боту сообщение.
-4.  Проверьте консоль приложения. Вы должны увидеть логи о получении сообщения (если вы добавили логику в `UpdateController`).
-
-## Расширение функциональности
-
-Этот проект предоставляет базовый шаблон для создания Telegram-ботов. Вы можете расширить его функциональность, добавив:
-
-*   Обработку других типов сообщений (документы, фото, команды и т.д.).
-*   Интеграцию с другими сервисами и API.
-*   Использование клавиатур и других интерактивных элементов Telegram.
-*   Логику обработки сообщений и отправки ответов в `UpdateController`.
-
-## Заключение
-
-Этот README предоставляет подробное описание структуры и функциональности проекта, а также ссылки на исходный код. Надеюсь, это поможет вам понять, как работает приложение, и начать создавать своих собственных Telegram-ботов!
-
-**Пожалуйста, не забудьте заменить `your-username` и `your-repo` на ваши реальные данные.**
-
-Теперь в README должно быть полное описание класса `UpdateController` и всех его методов.
+12. **Доставка ответа вам:**
+    *   **Telegram API** принимает мой ответ и доставляет его в ваше приложение Telegram. Вы видите мое сообщение!
