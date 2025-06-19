@@ -1,12 +1,10 @@
 package by.spvrent.service.impl;
 
 import by.spvrent.dao.AppUserDAO;
-import by.spvrent.entity.AppDocument;
-import by.spvrent.entity.AppUser;
+import by.spvrent.entity.*;
 import by.spvrent.dao.RawDataDAO;
-import by.spvrent.entity.AppUserState;
-import by.spvrent.entity.RawData;
 import by.spvrent.exeption.UploadFileException;
+import by.spvrent.service.enums.LinkType;
 import by.spvrent.service.enums.ServiceCommand;
 import by.spvrent.service.interf.FileService;
 import by.spvrent.service.interf.MainService;
@@ -94,9 +92,17 @@ public class MainServiceImpl implements MainService {
         if (isNotAllowToSendContent(chatID,appUser)){
             return;
         }
-        //TODO добавить сохранение фото;
-        String answer = "Фото успешно загружено! Ссылка для скачивания: http://test.ru/get-photo/777";
-        sendAnswer(answer,chatID);
+        try {
+            AppPhoto photo = fileService.processPhoto(update.getMessage());
+           // String link = fileService.generateLink(photo.getId(), LinkType.GET_PHOTO);
+            var answer = "Фото успешно загружено! "
+                    + "Ссылка для скачивания: " + "http://test.ru/get-photo/777";
+            sendAnswer(answer, chatID);
+        } catch (UploadFileException ex) {
+            log.error("",ex);
+            String error = "К сожалению, загрузка фото не удалась. Повторите попытку позже.";
+            sendAnswer(error, chatID);
+        }
     }
 
     private boolean isNotAllowToSendContent(Long chatID, AppUser appUser) {
