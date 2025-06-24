@@ -27,9 +27,6 @@ SELECT * FROM raw_data;]]></console>
   <component name="DBNavigator.Project.DatabaseFileManager">
     <open-files>
       <object connection-id="3cdbecdf-29e7-4758-b78b-11c534fa5233" object-ref="schemas/public/tables/app_photo" />
-      <object connection-id="3cdbecdf-29e7-4758-b78b-11c534fa5233" object-ref="schemas/public/tables/app_document" />
-      <object connection-id="3cdbecdf-29e7-4758-b78b-11c534fa5233" object-ref="schemas/public/tables/binary_content" />
-      <object connection-id="3cdbecdf-29e7-4758-b78b-11c534fa5233" object-ref="schemas/public/tables/raw_data" />
     </open-files>
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
