@@ -1,5 +1,6 @@
 package by.spvrent.service.impl;
 
+import by.spvrent.CryptoTool;
 import by.spvrent.dao.AppBinaryContentDAO;
 import by.spvrent.dao.AppDocumentDAO;
 import by.spvrent.dao.AppPhotoDAO;
@@ -7,18 +8,13 @@ import by.spvrent.entity.AppBinaryContent;
 import by.spvrent.entity.AppDocument;
 import by.spvrent.entity.AppPhoto;
 import by.spvrent.exeption.UploadFileException;
+import by.spvrent.service.enums.LinkType;
 import by.spvrent.service.interf.FileService;
-
 import lombok.RequiredArgsConstructor;
-//import org.hashids.Hashids;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.telegram.telegrambots.meta.api.objects.Document;
@@ -53,6 +49,8 @@ public class FileServiceImpl implements FileService {
 
     private final AppBinaryContentDAO binaryContentDAO;
 
+    private final CryptoTool cryptoTool;
+
     //private final Hashids hashids;
 
     @Override
@@ -83,6 +81,12 @@ public class FileServiceImpl implements FileService {
         } else {
             throw new UploadFileException("Bad response from telegram service: " + response);
         }
+    }
+
+    @Override
+    public String generateLink(Long docId, LinkType linkType) {
+        String hash = cryptoTool.hashOf(docId);
+        return "http://" + linkAddress + "/" + linkType + "?id=" + hash;
     }
 
     private AppBinaryContent getPersistentBinaryContent(ResponseEntity<String> response) {

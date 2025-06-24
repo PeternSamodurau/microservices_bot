@@ -17,6 +17,11 @@
                   <project path="$PROJECT_DIR$/common-rabbitmq" />
                 </projects>
               </build>
+              <build path="$PROJECT_DIR$/common-utils" name="common-utils">
+                <projects>
+                  <project path="$PROJECT_DIR$/common-utils" />
+                </projects>
+              </build>
               <build path="$PROJECT_DIR$/dispatcher" name="dispatcher">
                 <projects>
                   <project path="$PROJECT_DIR$/dispatcher" />
@@ -42,6 +47,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/common-jpa" />
             <option value="$PROJECT_DIR$/common-rabbitmq" />
+            <option value="$PROJECT_DIR$/common-utils" />
             <option value="$PROJECT_DIR$/dispatcher" />
             <option value="$PROJECT_DIR$/node" />
             <option value="$PROJECT_DIR$/rest-service" />

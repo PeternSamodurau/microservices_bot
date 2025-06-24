@@ -1,5 +1,6 @@
 package by.spvrent.service.impl;
 
+import by.spvrent.CryptoTool;
 import by.spvrent.dao.AppDocumentDAO;
 import by.spvrent.dao.AppPhotoDAO;
 import by.spvrent.entity.AppBinaryContent;
@@ -22,20 +23,24 @@ public class FileServiceImpl implements FileService {
 
     private final AppDocumentDAO appDocumentDAO;
     private final AppPhotoDAO appPhotoDAO;
+    private final CryptoTool cryptoTool;
 
 
     @Override
-    public AppDocument getDocument(String docId) {
-        //TODO добавить дешифрование хэш строки
-        Long longId = Long.parseLong(docId);
-        return appDocumentDAO.findById(longId).orElse(null);
+    public AppDocument getDocument(String hash) {
+        Long id =cryptoTool.idOf(hash);
+        if (id == null){
+            return null;
+        }
+        return appDocumentDAO.findById(id).orElse(null);
     }
 
     @Override
-    public AppPhoto getPhoto(String photoId) {
-        //TODO добавить дешифрование хэш строки
-        Long longId = Long.parseLong(photoId);
-        return appPhotoDAO.findById(longId).orElse(null);
+    public AppPhoto getPhoto(String hash) {
+
+        Long id = cryptoTool.idOf(hash);
+
+        return appPhotoDAO.findById(id).orElse(null);
 
     }
 
