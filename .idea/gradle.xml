@@ -27,6 +27,11 @@
                   <project path="$PROJECT_DIR$/dispatcher" />
                 </projects>
               </build>
+              <build path="$PROJECT_DIR$/mail-service" name="mail-servise">
+                <projects>
+                  <project path="$PROJECT_DIR$/mail-service" />
+                </projects>
+              </build>
               <build path="$PROJECT_DIR$/node" name="node">
                 <projects>
                   <project path="$PROJECT_DIR$/node" />
@@ -49,6 +54,7 @@
             <option value="$PROJECT_DIR$/common-rabbitmq" />
             <option value="$PROJECT_DIR$/common-utils" />
             <option value="$PROJECT_DIR$/dispatcher" />
+            <option value="$PROJECT_DIR$/mail-service" />
             <option value="$PROJECT_DIR$/node" />
             <option value="$PROJECT_DIR$/rest-service" />
           </set>

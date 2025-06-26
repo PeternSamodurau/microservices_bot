@@ -6,11 +6,10 @@ import by.spvrent.dao.AppPhotoDAO;
 import by.spvrent.entity.AppBinaryContent;
 import by.spvrent.entity.AppDocument;
 import by.spvrent.entity.AppPhoto;
-import by.spvrent.service.interf.FileService;
+import by.spvrent.service.FileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
-import org.aspectj.util.FileUtil;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Service;
 

@@ -1,7 +1,7 @@
 package by.spvrent.service.impl;
 
-import by.spvrent.service.interf.ConsumerService;
-import by.spvrent.service.interf.MainService;
+import by.spvrent.service.ConsumerService;
+import by.spvrent.service.MainService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
