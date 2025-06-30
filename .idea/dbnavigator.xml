@@ -19,13 +19,18 @@
     <connection id="3cdbecdf-29e7-4758-b78b-11c534fa5233">
       <console name="Connection" type="STANDARD" schema="" session="Main"><![CDATA[SELECT * FROM app_user;
 SELECT * FROM raw_data;]]></console>
+      <console name="microservices_bot" type="STANDARD" schema="" session="Main" />
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseEditorStateManager">
     <last-used-providers />
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files />
+    <open-files>
+      <object connection-id="3cdbecdf-29e7-4758-b78b-11c534fa5233" object-ref="consoles/microservices_bot" />
+      <object connection-id="3cdbecdf-29e7-4758-b78b-11c534fa5233" object-ref="schemas/public/tables/app_user" />
+      <object connection-id="3cdbecdf-29e7-4758-b78b-11c534fa5233" object-ref="schemas/public/tables/app_photo" />
+    </open-files>
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
     <connection id="3cdbecdf-29e7-4758-b78b-11c534fa5233" />

@@ -1,6 +1,6 @@
 package by.spvrent.service.impl;
 
-import by.spvrent.service.ProducerService;
+import by.spvrent.service.interf.ProducerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;

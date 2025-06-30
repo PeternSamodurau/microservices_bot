@@ -1,4 +1,4 @@
-package by.spvrent.service;
+package by.spvrent.service.interf;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
 

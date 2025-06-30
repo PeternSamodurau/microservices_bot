@@ -1,6 +1,6 @@
 package by.spvrent.configuration;
 
-import by.spvrent.CryptoTool;
+import by.spvrent.utils.CryptoTool;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

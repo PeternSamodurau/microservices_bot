@@ -1,4 +1,4 @@
-package by.spvrent.service;
+package by.spvrent.service.interf;
 
 import by.spvrent.entity.AppDocument;
 import by.spvrent.entity.AppPhoto;

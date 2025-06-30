@@ -1,14 +1,14 @@
 package by.spvrent.dto;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Getter
 @Setter
-@RequiredArgsConstructor
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class MailParams {
 
     private String id;

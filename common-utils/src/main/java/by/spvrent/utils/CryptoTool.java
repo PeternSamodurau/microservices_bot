@@ -1,4 +1,4 @@
-package by.spvrent;
+package by.spvrent.utils;
 
 import org.hashids.Hashids;
 

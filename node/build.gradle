@@ -27,6 +27,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-amqp'
 	implementation group: 'org.telegram', name: 'telegrambots', version: '6.9.7.1'
+	implementation 'javax.mail:mail:1.4.7'
 
 	// связь с другими микросервисами
 	implementation group: 'by.spvrent' , name: 'common-rabbitmq', version: '1.0-SNAPSHOT'
