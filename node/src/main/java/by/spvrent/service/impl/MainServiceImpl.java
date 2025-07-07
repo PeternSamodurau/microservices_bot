@@ -41,25 +41,49 @@ public class MainServiceImpl implements MainService {
         saveRawData(update);
 
         AppUser appUser = findOrSaveAppUser(update);
-        AppUserState appUserState = appUser.getAppUserState();  // BASIC_STATE, WAIT_FOR_EMAIL_STATE
-        String text = update.getMessage().getText();       // HELP("/help"), REGISTRATION("/registration"), CANCEL("/cancel"),START("/start");
+        AppUserState appUserState = appUser.getAppUserState();
+        String text = update.getMessage().getText();
         String output = "";
 
-        ServiceCommand serviceCommand = ServiceCommand.fromValue(text);
-        if (CANCEL.equals(serviceCommand)){
+        // --- Извлечение и очистка команды ---
+        String parsedCommandText = null;
+        if (text != null && text.startsWith("/")) {
+            parsedCommandText = text.split(" ")[0].split("@")[0].trim();
+        }
+        ServiceCommand incomingServiceCommand = ServiceCommand.fromValue(parsedCommandText);
+
+        // Добавлено для отладки состояния пользователя
+        log.info("NODE - MainServiceImpl: User (ID: {}) state is '{}' for text '{}', parsedCommandText: '{}', incomingServiceCommand: {}",
+                appUser.getTelegramUserId(), appUserState, text, parsedCommandText, incomingServiceCommand);
+
+        // --- ГЛАВНОЕ ИСПРАВЛЕНИЕ: Обработка команд, которые должны работать в любом состоянии, ПЕРЕД проверкой состояния ---
+        if (CANCEL.equals(incomingServiceCommand)) { // /cancel всегда работает
             output = cancelProcess(appUser);
-        }else if (BASIC_STATE.equals(appUserState)){
-            output = processServiceComand(appUser,text);
-        }else if (WAIT_FOR_EMAIL_STATE.equals(appUserState)){
+        } else if (HELP.equals(incomingServiceCommand)) { // /help всегда работает
+            output = help();
+        } else if (START.equals(incomingServiceCommand)) { // /start всегда работает
+            output = "Привет! Чтобы посмотреть список доступных команд введите /help";
+        }
+        // --- Конец блока универсальных команд ---
+
+        // Теперь обрабатываем в зависимости от состояния, ЕСЛИ команда не была универсальной
+        else if (BASIC_STATE.equals(appUserState)) {
+            // Если пользователь в BASIC_STATE, и это не универсальная команда
+            // (т.е. incomingServiceCommand был null, или это не одна из универсальных команд,
+            // но из fromValue вернулось что-то)
+            output = processServiceCommand(appUser, incomingServiceCommand); // Передаем объект ServiceCommand (может быть null)
+        } else if (WAIT_FOR_EMAIL_STATE.equals(appUserState)) {
+            // Если пользователь в состоянии ожидания email, обрабатываем текст как email
+            // (здесь text - это email, НЕ команда /help, потому что /help уже был обработан выше)
             output = appUserService.setEmail(appUser, text);
-        }else {
+        } else {
+            // Неизвестное состояние пользователя - это ошибка в логике приложения
             log.error("Unknown user state: " + appUserState);
             output = "Неизвестная ошибка! Введите /cancel и попробуйте снова!";
         }
+
         Long chatID = update.getMessage().getChatId();
-
         sendAnswer(output, chatID);
-
     }
 
     @Override
@@ -69,9 +93,14 @@ public class MainServiceImpl implements MainService {
         AppUser appUser = findOrSaveAppUser(update);
         Long chatId = update.getMessage().getChatId();
 
-        if (isNotAllowToSendContent(chatId,appUser)){
-            return;
+        // Убедитесь, что isNotAllowToSendContent не меняет состояние, если оно не должно
+        // и что он возвращает true, если загрузка контента не разрешена.
+        // Если isNotAllowToSendContent сам устанавливает WAIT_FOR_EMAIL_STATE,
+        // то это должно быть логикой регистрации.
+        if (isNotAllowToSendContent(chatId, appUser)){
+            return; // Выходим, если загрузка не разрешена
         }
+
         try {
             AppDocument doc = fileService.processDoc(update.getMessage());
             String link = fileService.generateLink(doc.getId(), LinkType.GET_DOC);
@@ -94,9 +123,11 @@ public class MainServiceImpl implements MainService {
 
         Long chatID = update.getMessage().getChatId();
 
-        if (isNotAllowToSendContent(chatID,appUser)){
+        // Аналогично для фото
+        if (isNotAllowToSendContent(chatID, appUser)){
             return;
         }
+
         try {
             AppPhoto photo = fileService.processPhoto(update.getMessage());
             String link = fileService.generateLink(photo.getId(), LinkType.GET_PHOTO);
@@ -106,7 +137,7 @@ public class MainServiceImpl implements MainService {
             sendAnswer(answer, chatID);
 
         } catch (UploadFileException ex) {
-            log.error("",ex);
+            log.error("", ex);
             String error = "К сожалению, загрузка фото не удалась. Повторите попытку позже.";
             sendAnswer(error, chatID);
         }
@@ -114,13 +145,19 @@ public class MainServiceImpl implements MainService {
 
     private boolean isNotAllowToSendContent(Long chatID, AppUser appUser) {
         AppUserState appUserState = appUser.getAppUserState();
-        if (!appUser.getIsActive()){
+        if (!appUser.getIsActive()) {
+            // Если пользователь не активен, сообщаем ему о необходимости регистрации/активации
             String error = "Зарегистрируйтесь или активируйте свою учетную запись для загрузки контента.";
-            sendAnswer(error,chatID);
+            sendAnswer(error, chatID);
+            // Если после этого должна начинаться регистрация, убедитесь, что AppUserService.registerUser
+            // или другой метод устанавливает WAIT_FOR_EMAIL_STATE.
+            // НЕ МЕНЯЕМ СОСТОЯНИЕ ЗДЕСЬ, ЕСЛИ ЭТО ДОЛЖНА ДЕЛАТЬ ЛОГИКА РЕГИСТРАЦИИ.
             return true;
-        }else if (!BASIC_STATE.equals(appUserState)){
+        } else if (!BASIC_STATE.equals(appUserState)) {
+            // Если пользователь активен, но не в BASIC_STATE (например, в WAIT_FOR_EMAIL_STATE),
+            // то он должен сначала отменить текущее действие.
             String error = "Отмените текущую команду с помощью /cancel для отправки файлов.";
-            sendAnswer(error,chatID);
+            sendAnswer(error, chatID);
             return true;
         }
         return false;
@@ -131,24 +168,33 @@ public class MainServiceImpl implements MainService {
         sendMessage.setChatId(chatID);
         sendMessage.setText(output);
 
-        log.info("Send message: " + sendMessage);
+        log.info("NODE - MainServiceImpl: Sending message to chatId {}: '{}'", chatID, output);
 
         producerService.producerAnswer(sendMessage);
-
     }
 
-    private String processServiceComand(AppUser appUser, String cmd) {
-        if (REGISTRATION.equals(cmd)){
-            return appUserService.registerUser(appUser);
-        } else if (HELP.equals(cmd)){
-            return help();
-        }else if (START.equals(cmd)){
-            return "Привет! Чтобы посмотреть список доступных команд введите /help";
-        }else {
+    // --- ИСПРАВЛЕННЫЙ МЕТОД: processServiceCommand ---
+    // Этот метод теперь принимает объект ServiceCommand
+    private String processServiceCommand(AppUser appUser, ServiceCommand cmdEnum) {
+        // Если cmdEnum равно null, это означает, что fromValue не нашел команду,
+        // или что это был обычный текст, не начинающийся с '/'.
+        // Этот метод вызывается только из BASIC_STATE, если команда не была универсальной.
+        if (cmdEnum == null) {
             return "Неизвестная команда! Чтобы посмотреть список доступных команд введите /help";
         }
 
+        // Мы используем ServiceCommand.ENUM_NAME.equals(cmdEnum), что является корректным сравнением объектов ENUM.
+        if (REGISTRATION.equals(cmdEnum)) {
+            // Этот метод (appUserService.registerUser) должен устанавливать
+            // AppUserState.WAIT_FOR_EMAIL_STATE, если регистрация начинается/продолжается.
+            return appUserService.registerUser(appUser);
+        } else {
+            // Если сюда попадает, значит, это известная команда, которая не является универсальной,
+            // но и не является REGISTRATION (в рамках BASIC_STATE)
+            return "Неизвестная команда! Чтобы посмотреть список доступных команд введите /help";
+        }
     }
+    // --- КОНЕЦ ИСПРАВЛЕННОГО МЕТОДА ---
 
     private String help() {
         return "Список доступных команд:\n"
@@ -157,26 +203,22 @@ public class MainServiceImpl implements MainService {
     }
 
     private String cancelProcess(AppUser appUser) {
-        appUser.setAppUserState(BASIC_STATE);
+        appUser.setAppUserState(BASIC_STATE); // Сбрасываем состояние на BASIC_STATE
         appUserDAO.save(appUser);
-
         return "Команда отменена!";
     }
 
-    private AppUser findOrSaveAppUser(Update update){
-
+    private AppUser findOrSaveAppUser(Update update) {
         User telegramUser = update.getMessage().getFrom();
-
         Optional<AppUser> persistentAppUser = appUserDAO.findByTelegramUserId(telegramUser.getId());
-
-        if (persistentAppUser.isEmpty()){
+        if (persistentAppUser.isEmpty()) {
             AppUser transientAppUser = AppUser.builder()
                     .telegramUserId(telegramUser.getId())
                     .userName(telegramUser.getUserName())
                     .firstName(telegramUser.getFirstName())
                     .lastName(telegramUser.getLastName())
                     .isActive(false)
-                    .appUserState(BASIC_STATE)
+                    .appUserState(BASIC_STATE) // Изначально всегда BASIC_STATE для нового пользователя
                     .build();
             return appUserDAO.save(transientAppUser);
         }

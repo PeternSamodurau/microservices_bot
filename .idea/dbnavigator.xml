@@ -27,9 +27,7 @@ SELECT * FROM raw_data;]]></console>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
     <open-files>
-      <object connection-id="3cdbecdf-29e7-4758-b78b-11c534fa5233" object-ref="consoles/microservices_bot" />
       <object connection-id="3cdbecdf-29e7-4758-b78b-11c534fa5233" object-ref="schemas/public/tables/app_user" />
-      <object connection-id="3cdbecdf-29e7-4758-b78b-11c534fa5233" object-ref="schemas/public/tables/app_photo" />
     </open-files>
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
@@ -47,7 +45,7 @@ SELECT * FROM raw_data;]]></console>
         <condition column="id" operator="=" value="" active="true" />
       </filter>
     </filter-actions>
-    <filter-actions connection-id="3cdbecdf-29e7-4758-b78b-11c534fa5233" dataset="public.app_user" active-filter-id="e1210b53-f4e5-4a75-9e9c-c248e8185ac6">
+    <filter-actions connection-id="3cdbecdf-29e7-4758-b78b-11c534fa5233" dataset="public.app_user" active-filter-id="EMPTY_FILTER">
       <filter id="e1210b53-f4e5-4a75-9e9c-c248e8185ac6" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND">
         <condition column="id" operator="=" value="" active="true" />
       </filter>
