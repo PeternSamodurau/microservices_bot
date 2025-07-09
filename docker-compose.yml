@@ -29,9 +29,9 @@ services:
       - postgres_data:/var/lib/postgresql/data # Монтируем именованный том для персистентности данных PostgreSQL
     restart: unless-stopped            # Контейнер будет автоматически перезапускаться при перезапуске Docker
     environment: # Переменные окружения для PostgreSQL.
-      POSTGRES_DB: microservices_bot   # Имя базы данных, соответствует spring.datasource.url
-      POSTGRES_USER: peter             # Имя пользователя, соответствует spring.datasource.username
-      POSTGRES_PASSWORD: peter         # Пароль пользователя, соответствует spring.datasource.password
+      POSTGRES_DB: ${DATABASE_NAME}   # Имя базы данных, соответствует spring.datasource.url
+      POSTGRES_USER: ${DATABASE_USERNAME}             # Имя пользователя, соответствует spring.datasource.username
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}         # Пароль пользователя, соответствует spring.datasource.password
 
 # Определение именованных томов для персистентного хранения данных
 volumes:

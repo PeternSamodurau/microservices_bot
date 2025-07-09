@@ -10,15 +10,13 @@
     <value-preview-pinned value="false" />
   </component>
   <component name="DBNavigator.Project.DatabaseBrowserManager">
-    <autoscroll-to-editor value="true" />
+    <autoscroll-to-editor value="false" />
     <autoscroll-from-editor value="true" />
     <show-object-properties value="false" />
     <loaded-nodes />
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
-    <connection id="3cdbecdf-29e7-4758-b78b-11c534fa5233">
-      <console name="Connection" type="STANDARD" schema="" session="Main"><![CDATA[SELECT * FROM app_user;
-SELECT * FROM raw_data;]]></console>
+    <connection id="fa0dd7d2-ace0-45ef-a692-fe5759c46d5b">
       <console name="microservices_bot" type="STANDARD" schema="" session="Main" />
     </connection>
   </component>
@@ -26,38 +24,22 @@ SELECT * FROM raw_data;]]></console>
     <last-used-providers />
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files>
-      <object connection-id="3cdbecdf-29e7-4758-b78b-11c534fa5233" object-ref="schemas/public/tables/app_user" />
-    </open-files>
+    <open-files />
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
-    <connection id="3cdbecdf-29e7-4758-b78b-11c534fa5233" />
+    <connection id="fa0dd7d2-ace0-45ef-a692-fe5759c46d5b" />
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
-    <filter-actions connection-id="3cdbecdf-29e7-4758-b78b-11c534fa5233" dataset="public.raw_data" active-filter-id="455ea446-e59a-4020-bbbe-5a20b8c618c2">
-      <filter id="455ea446-e59a-4020-bbbe-5a20b8c618c2" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND">
+    <filter-actions connection-id="fa0dd7d2-ace0-45ef-a692-fe5759c46d5b" dataset="public.app_photo" active-filter-id="d764524e-f5bc-4506-9a56-b311f3d57d0a">
+      <filter id="d764524e-f5bc-4506-9a56-b311f3d57d0a" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND">
         <condition column="id" operator="=" value="" active="true" />
       </filter>
     </filter-actions>
-    <filter-actions connection-id="3cdbecdf-29e7-4758-b78b-11c534fa5233" dataset="public.app_photo" active-filter-id="EMPTY_FILTER" />
-    <filter-actions connection-id="3cdbecdf-29e7-4758-b78b-11c534fa5233" dataset="public.app_document" active-filter-id="ed016b2b-93ca-4fac-bba6-6efd9d9631d6">
-      <filter id="ed016b2b-93ca-4fac-bba6-6efd9d9631d6" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND">
+    <filter-actions connection-id="fa0dd7d2-ace0-45ef-a692-fe5759c46d5b" dataset="public.app_user" active-filter-id="">
+      <filter id="8a0e55b6-0aba-492c-8539-3a35ee757273" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND">
         <condition column="id" operator="=" value="" active="true" />
       </filter>
     </filter-actions>
-    <filter-actions connection-id="3cdbecdf-29e7-4758-b78b-11c534fa5233" dataset="public.app_user" active-filter-id="EMPTY_FILTER">
-      <filter id="e1210b53-f4e5-4a75-9e9c-c248e8185ac6" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND">
-        <condition column="id" operator="=" value="" active="true" />
-      </filter>
-    </filter-actions>
-    <filter-actions connection-id="3cdbecdf-29e7-4758-b78b-11c534fa5233" dataset="public.binary_content" active-filter-id="fea75128-1ff8-44a4-83aa-b73e0c364c0a">
-      <filter id="fea75128-1ff8-44a4-83aa-b73e0c364c0a" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND">
-        <condition column="id" operator="=" value="" active="true" />
-      </filter>
-    </filter-actions>
-  </component>
-  <component name="DBNavigator.Project.ExecutionManager">
-    <retain-sticky-names value="false" />
   </component>
   <component name="DBNavigator.Project.ObjectQuickFilterManager">
     <last-used-operator value="EQUAL" />
@@ -65,7 +47,7 @@ SELECT * FROM raw_data;]]></console>
   </component>
   <component name="DBNavigator.Project.Settings">
     <connections>
-      <connection id="3cdbecdf-29e7-4758-b78b-11c534fa5233" active="true" signed="true">
+      <connection id="fa0dd7d2-ace0-45ef-a692-fe5759c46d5b" active="true" signed="true">
         <database>
           <name value="microservices_bot" />
           <description value="" />
