@@ -24,22 +24,26 @@
     <last-used-providers />
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files />
+    <open-files>
+      <object connection-id="fa0dd7d2-ace0-45ef-a692-fe5759c46d5b" object-ref="schemas/public/tables/app_document" />
+      <object connection-id="fa0dd7d2-ace0-45ef-a692-fe5759c46d5b" object-ref="schemas/public/tables/app_user" />
+      <object connection-id="fa0dd7d2-ace0-45ef-a692-fe5759c46d5b" object-ref="schemas/public/tables/binary_content" />
+      <object connection-id="fa0dd7d2-ace0-45ef-a692-fe5759c46d5b" object-ref="schemas/public/tables/raw_data" />
+    </open-files>
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
     <connection id="fa0dd7d2-ace0-45ef-a692-fe5759c46d5b" />
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
-    <filter-actions connection-id="fa0dd7d2-ace0-45ef-a692-fe5759c46d5b" dataset="public.app_photo" active-filter-id="d764524e-f5bc-4506-9a56-b311f3d57d0a">
-      <filter id="d764524e-f5bc-4506-9a56-b311f3d57d0a" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND">
+    <filter-actions connection-id="fa0dd7d2-ace0-45ef-a692-fe5759c46d5b" dataset="public.raw_data" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="fa0dd7d2-ace0-45ef-a692-fe5759c46d5b" dataset="public.app_photo" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="fa0dd7d2-ace0-45ef-a692-fe5759c46d5b" dataset="public.app_document" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="fa0dd7d2-ace0-45ef-a692-fe5759c46d5b" dataset="public.app_user" active-filter-id="EMPTY_FILTER">
+      <filter id="b8e80b8b-32fb-4f42-9a91-567f5d1e7aa0" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND">
         <condition column="id" operator="=" value="" active="true" />
       </filter>
     </filter-actions>
-    <filter-actions connection-id="fa0dd7d2-ace0-45ef-a692-fe5759c46d5b" dataset="public.app_user" active-filter-id="">
-      <filter id="8a0e55b6-0aba-492c-8539-3a35ee757273" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND">
-        <condition column="id" operator="=" value="" active="true" />
-      </filter>
-    </filter-actions>
+    <filter-actions connection-id="fa0dd7d2-ace0-45ef-a692-fe5759c46d5b" dataset="public.binary_content" active-filter-id="EMPTY_FILTER" />
   </component>
   <component name="DBNavigator.Project.ObjectQuickFilterManager">
     <last-used-operator value="EQUAL" />

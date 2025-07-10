@@ -33,10 +33,9 @@ public class TelegramBotController extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         log.info("Text received in onUpdateReceived: {}", update.getMessage().getText());
-        UpdateBotController updateController = new UpdateBotController(this, new MessageUtils(), updateProducer);
+        UpdateBotProcessor updateController = new UpdateBotProcessor(this, new MessageUtils(), updateProducer);
         updateController.processUpdate(update);
     }
-
     public void sendAnswerMessage(SendMessage sendMessage) {
         try {
             execute(sendMessage);

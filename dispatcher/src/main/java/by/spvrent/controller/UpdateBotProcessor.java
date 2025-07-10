@@ -15,7 +15,7 @@ import static by.spvrent.model.RabbitQueue.*;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class UpdateBotController {
+public class UpdateBotProcessor {
 
     private final TelegramBotController telegramBot;
     private final MessageUtils messageUtils;

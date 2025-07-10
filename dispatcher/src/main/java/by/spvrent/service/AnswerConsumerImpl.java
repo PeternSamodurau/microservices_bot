@@ -1,6 +1,6 @@
 package by.spvrent.service;
 
-import by.spvrent.controller.UpdateBotController;
+import by.spvrent.controller.UpdateBotProcessor;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -12,9 +12,9 @@ import static by.spvrent.model.RabbitQueue.ANSWER_MESSAGE;
 @Service
 public class AnswerConsumerImpl implements AnswerConsumer{
 
-    private final UpdateBotController updateController;
+    private final UpdateBotProcessor updateController;
 
-    public AnswerConsumerImpl(UpdateBotController updateController) {
+    public AnswerConsumerImpl(UpdateBotProcessor updateController) {
         this.updateController = updateController;
     }
 
