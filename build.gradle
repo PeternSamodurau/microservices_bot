@@ -9,9 +9,14 @@ repositories {
     mavenCentral()
 }
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
 dependencies {
-
-
+    // тут зависимости по модулям
 }
 
 test {
