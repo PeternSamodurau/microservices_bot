@@ -23,15 +23,15 @@ repositories {
     mavenCentral()
 }
 
-
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
-    implementation group: 'org.telegram', name: 'telegrambots', version: '6.9.7.1'
-    implementation 'org.springframework.boot:spring-boot-starter'
-    implementation("com.squareup.okhttp3:okhttp:5.0.0-alpha.14")
-    implementation group: 'by.spvrent' , name: 'common-rabbitmq', version: '1.0-SNAPSHOT'
     implementation 'org.springframework.boot:spring-boot-starter-amqp:3.4.5'
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.telegram:telegrambots:6.9.7.1'
+    implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.14'
+
+    implementation project(':common-rabbitmq')
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
@@ -39,6 +39,18 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
+
+jar {
+    enabled = false
+}
+
+bootJar {
+    archiveBaseName = "dispatcher"
+    archiveVersion = "0.0.1-SNAPSHOT"
+    archiveClassifier = null
+}
+
 tasks.named('test') {
     useJUnitPlatform()
+    enabled = false
 }

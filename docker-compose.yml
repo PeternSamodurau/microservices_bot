@@ -1,4 +1,3 @@
-# docker-compose.yml
 version: '3.8' # Указываем версию Docker Compose.
 
 services:
@@ -15,10 +14,10 @@ services:
     restart: unless-stopped            # Контейнер будет автоматически перезапускаться при перезапуске Docker
     environment: # Переменные окружения для RabbitMQ.
       # Устанавливают дефолтного пользователя-администратора при первом запуске.
-      RABBITMQ_DEFAULT_USER: peters    # Соответствует spring.rabbitmq.username из твоего application.properties
-      RABBITMQ_DEFAULT_PASS: root      # Соответствует spring.rabbitmq.password из твоего application.properties
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}    # Соответствует spring.rabbitmq.username из твоего application.properties
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}      # Соответствует spring.rabbitmq.password из твоего application.properties
 
-  # НОВЫЙ Сервис для PostgreSQL
+  # Сервис для PostgreSQL
   postgres:
     image: postgres:13                 # Используем образ PostgreSQL версии 13. Можно использовать 'latest' или другую версию.
     hostname: postgres                 # Имя хоста внутри контейнера
@@ -33,8 +32,86 @@ services:
       POSTGRES_USER: ${DATABASE_USERNAME}             # Имя пользователя, соответствует spring.datasource.username
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}         # Пароль пользователя, соответствует spring.datasource.password
 
+  # НОВЫЙ СЕРВИС: rest-service (добавленный блок)
+  rest-service:
+    build:
+      context: ./rest-service # Контекст сборки - директория rest-service
+      dockerfile: Dockerfile  # Имя Dockerfile внутри этой директории
+    container_name: rest_service # Конкретное имя контейнера
+    ports:
+      - "8083:8083" # Пробрасываем порт rest-service: <порт_на_хосте>:<порт_в_контейнере>
+    environment:
+      # Настройки для Spring Boot приложения внутри контейнера
+      # hostname 'postgres' и 'rabbitmq' - это имена сервисов в docker-compose,
+      # они резолвятся во внутренние IP-адреса контейнеров Docker.
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${DATABASE_NAME}
+      SPRING_DATASOURCE_USERNAME: ${DATABASE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${DATABASE_PASSWORD}
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_USERNAME: ${RABBITMQ_DEFAULT_USER}
+      SPRING_RABBITMQ_PASSWORD: ${RABBITMQ_DEFAULT_PASS}
+      SALT: ${SALT} # Ваша соль для CryptoTool
+      # SPRING_PROFILES_ACTIVE: default # Если нужен конкретный профиль в Docker
+    depends_on:
+      - postgres # rest-service зависит от postgres
+      - rabbitmq # rest-service зависит от rabbitmq
+    restart: unless-stopped # Контейнер будет автоматически перезапускаться
+
+  node-service:
+    build:
+      context: ./node
+      dockerfile: Dockerfile
+    container_name: node_service
+    ports:
+      - "8085:8085"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${DATABASE_NAME}
+      SPRING_DATASOURCE_USERNAME: ${DATABASE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${DATABASE_PASSWORD}
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_USERNAME: ${RABBITMQ_DEFAULT_USER}
+      SPRING_RABBITMQ_PASSWORD: ${RABBITMQ_DEFAULT_PASS}
+      SALT: ${SALT}
+    depends_on:
+      - postgres
+      - rabbitmq
+    restart: unless-stopped
+
+  mail-service:
+    build:
+      context: ./mail-service
+      dockerfile: Dockerfile
+    container_name: mail_service
+    ports:
+      - "8086:8086"
+    environment:
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_USERNAME: ${RABBITMQ_DEFAULT_USER}
+      SPRING_RABBITMQ_PASSWORD: ${RABBITMQ_DEFAULT_PASS}
+      SALT: ${SALT}
+    depends_on:
+      - rabbitmq
+    restart: unless-stopped
+
+  dispatcher-service:
+    build:
+      context: ./dispatcher
+      dockerfile: Dockerfile
+    container_name: dispatcher_service
+    ports:
+      - "8084:8084"
+    environment:
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_USERNAME: ${RABBITMQ_DEFAULT_USER}
+      SPRING_RABBITMQ_PASSWORD: ${RABBITMQ_DEFAULT_PASS}
+      SALT: ${SALT}
+    depends_on:
+      - rabbitmq
+    restart: unless-stopped
+
+
 # Определение именованных томов для персистентного хранения данных
 volumes:
   rabbitmq_data: # Данные RabbitMQ (очереди, настройки, сообщения) будут храниться здесь.
-  postgres_data: # НОВЫЙ ТОМ: Данные PostgreSQL (таблицы, записи) будут храниться здесь.
+  postgres_data: # Данные PostgreSQL (таблицы, записи) будут храниться здесь.
   # Docker сам создаст эти тома при первом запуске.

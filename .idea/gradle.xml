@@ -4,47 +4,6 @@
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
-        <compositeConfiguration>
-          <compositeBuild compositeDefinitionSource="SCRIPT">
-            <builds>
-              <build path="$PROJECT_DIR$/common-jpa" name="common-jpa">
-                <projects>
-                  <project path="$PROJECT_DIR$/common-jpa" />
-                </projects>
-              </build>
-              <build path="$PROJECT_DIR$/common-rabbitmq" name="common-rabbitmq">
-                <projects>
-                  <project path="$PROJECT_DIR$/common-rabbitmq" />
-                </projects>
-              </build>
-              <build path="$PROJECT_DIR$/common-utils" name="common-utils">
-                <projects>
-                  <project path="$PROJECT_DIR$/common-utils" />
-                </projects>
-              </build>
-              <build path="$PROJECT_DIR$/dispatcher" name="dispatcher">
-                <projects>
-                  <project path="$PROJECT_DIR$/dispatcher" />
-                </projects>
-              </build>
-              <build path="$PROJECT_DIR$/mail-service" name="mail-servise">
-                <projects>
-                  <project path="$PROJECT_DIR$/mail-service" />
-                </projects>
-              </build>
-              <build path="$PROJECT_DIR$/node" name="node">
-                <projects>
-                  <project path="$PROJECT_DIR$/node" />
-                </projects>
-              </build>
-              <build path="$PROJECT_DIR$/rest-service" name="rest-service">
-                <projects>
-                  <project path="$PROJECT_DIR$/rest-service" />
-                </projects>
-              </build>
-            </builds>
-          </compositeBuild>
-        </compositeConfiguration>
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="modules">
           <set>

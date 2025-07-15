@@ -26,7 +26,8 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation group: 'by.spvrent' , name: 'common-utils', version: '1.0-SNAPSHOT'
+
+	implementation project(':common-utils')
 
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
@@ -35,6 +36,17 @@ dependencies {
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
+jar {
+	enabled = false
+}
+
+bootJar {
+	archiveBaseName = "mail-service"
+	archiveVersion = "0.0.1-SNAPSHOT"
+	archiveClassifier = null
+}
+
 tasks.named('test') {
 	useJUnitPlatform()
+	enabled = false
 }

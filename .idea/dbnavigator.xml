@@ -24,12 +24,7 @@
     <last-used-providers />
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files>
-      <object connection-id="fa0dd7d2-ace0-45ef-a692-fe5759c46d5b" object-ref="schemas/public/tables/app_document" />
-      <object connection-id="fa0dd7d2-ace0-45ef-a692-fe5759c46d5b" object-ref="schemas/public/tables/app_user" />
-      <object connection-id="fa0dd7d2-ace0-45ef-a692-fe5759c46d5b" object-ref="schemas/public/tables/binary_content" />
-      <object connection-id="fa0dd7d2-ace0-45ef-a692-fe5759c46d5b" object-ref="schemas/public/tables/raw_data" />
-    </open-files>
+    <open-files />
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
     <connection id="fa0dd7d2-ace0-45ef-a692-fe5759c46d5b" />

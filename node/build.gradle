@@ -26,17 +26,15 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-amqp'
-	implementation group: 'org.telegram', name: 'telegrambots', version: '6.9.7.1'
+	implementation 'org.telegram:telegrambots:6.9.7.1'
 	implementation 'javax.mail:mail:1.4.7'
 
-	// связь с другими микросервисами
-	implementation group: 'by.spvrent' , name: 'common-rabbitmq', version: '1.0-SNAPSHOT'
-	implementation group: 'by.spvrent' , name: 'common-jpa', version: '1.0-SNAPSHOT'
-	implementation group: 'by.spvrent' , name: 'common-utils', version: '1.0-SNAPSHOT'
+	implementation project(':common-rabbitmq')
+	implementation project(':common-jpa')
+	implementation project(':common-utils')
 
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.postgresql:postgresql:42.6.0'
-	//для сохранения jsonb
 	implementation 'com.vladmihalcea:hibernate-types-60:2.21.1'
 	implementation 'org.json:json:20231013'
 
@@ -44,6 +42,18 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 }
 
+// Отключаем обычный jar и настраиваем bootJar
+jar {
+	enabled = false
+}
+
+bootJar {
+	archiveBaseName = "node"
+	archiveVersion = "0.0.1-SNAPSHOT"
+	archiveClassifier = null
+}
+
 tasks.named('test') {
 	useJUnitPlatform()
+	enabled = false
 }

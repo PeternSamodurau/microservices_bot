@@ -5,19 +5,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="992c18bf-e61a-41d3-ad68-6b1229c8dcb3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dispatcher/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mail-service/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/node/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rest-service/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rest-service_load_test.jmx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test_bot.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gigaide/gigaide.properties" beforeDir="false" afterPath="$PROJECT_DIR$/.gigaide/gigaide.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dbnavigator.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dispatcher/src/main/java/by/spvrent/controller/TelegramBotController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dispatcher/src/main/java/by/spvrent/controller/TelegramBotController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dispatcher/src/main/java/by/spvrent/controller/UpdateBotController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dispatcher/src/main/java/by/spvrent/controller/UpdateBotProcessor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dispatcher/src/main/java/by/spvrent/service/AnswerConsumerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/dispatcher/src/main/java/by/spvrent/service/AnswerConsumerImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dispatcher/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/dispatcher/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dispatcher/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/dispatcher/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mail-service/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/mail-service/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/node/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/node/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/node/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest-service/src/main/java/by/spvrent/controller/FileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/rest-service/src/main/java/by/spvrent/controller/FileController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest-service/src/main/java/by/spvrent/service/impl/FileServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/rest-service/src/main/java/by/spvrent/service/impl/FileServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest-service/src/main/java/by/spvrent/service/interf/FileService.java" beforeDir="false" afterPath="$PROJECT_DIR$/rest-service/src/main/java/by/spvrent/service/interf/FileService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rest-service/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/rest-service/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,43 +52,11 @@
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="microservices_bot" type="f1a62948:ProjectNode" />
-                <item name="microservices_bot" type="2d1252cf:ModuleNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="microservices_bot" type="f1a62948:ProjectNode" />
-                <item name="microservices_bot" type="2d1252cf:ModuleNode" />
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
               </path>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="microservices_bot" type="f1a62948:ProjectNode" />
-                <item name="microservices_bot" type="2d1252cf:ModuleNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="build" type="c8890929:TasksNode$1" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="microservices_bot" type="f1a62948:ProjectNode" />
-                <item name="rest-service" type="2d1252cf:ModuleNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="microservices_bot" type="f1a62948:ProjectNode" />
-                <item name="rest-service" type="2d1252cf:ModuleNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="microservices_bot" type="f1a62948:ProjectNode" />
-                <item name="rest-service" type="2d1252cf:ModuleNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="application" type="c8890929:TasksNode$1" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="microservices_bot" type="f1a62948:ProjectNode" />
-                <item name="rest-service" type="2d1252cf:ModuleNode" />
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
                 <item name="build" type="c8890929:TasksNode$1" />
               </path>
@@ -109,6 +84,7 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;Docker.docker-compose.yml: Compose Deployment.executor&quot;: &quot;Run&quot;,
     &quot;Gradle.Build microservices_bot.executor&quot;: &quot;Run&quot;,
     &quot;Gradle.RestServiceApplicationTests.executor&quot;: &quot;Run&quot;,
     &quot;Gradle.microservices_bot [:dispatcher:by.spvrent.DispatcherApplication.main()].executor&quot;: &quot;Run&quot;,
@@ -116,16 +92,28 @@
     &quot;Gradle.microservices_bot [:node:by.spvrent.NodeApplication.main()].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.microservices_bot [:rest-service:bootTestRun].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.microservices_bot [:rest-service:by.spvrent.RestServiceApplication.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.microservices_bot [:rest-service:clean].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.microservices_bot [:rest-service:jar].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.microservices_bot [:rest-service:testClasses].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.microservices_bot [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.microservices_bot [jar].executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/user/IdeaProjects/springHustonApp&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/user/IdeaProjects/microservices_bot/dispatcher&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;File.Encoding&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\user\IdeaProjects\microservices_bot\dispatcher" />
+      <recent name="C:\Users\user\IdeaProjects\microservices_bot\mail-service" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\user\IdeaProjects\microservices_bot" />
+    </key>
+  </component>
   <component name="RunDashboard">
     <option name="configurationTypes">
       <set>
@@ -133,58 +121,50 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Gradle.microservices_bot [clean]">
-    <configuration name="DispatcherApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="by.spvrent.DispatcherApplication" />
-      <module name="dispatcher.main" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="by.spvrent.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
+  <component name="RunManager" selected="Docker.docker-compose.yml: Compose Deployment">
+    <configuration name="microservices_bot [:rest-service:clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":rest-service:clean" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
     </configuration>
-    <configuration name="MailServiceApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="by.spvrent.MailServiceApplication" />
-      <module name="mail-servise.main" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="by.spvrent.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="NodeApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="by.spvrent.NodeApplication" />
-      <module name="node.main" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="by.spvrent.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="RestServiceApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="by.spvrent.RestServiceApplication" />
-      <module name="rest-service.main" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="by.spvrent.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
+    <configuration name="microservices_bot [:rest-service:jar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":rest-service:jar" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
     </configuration>
     <configuration name="microservices_bot [clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
@@ -198,6 +178,28 @@
         <option name="taskNames">
           <list>
             <option value="clean" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="microservices_bot [jar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="jar" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -252,6 +254,20 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <method v="2" />
     </configuration>
+    <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
+      <deployment type="docker-compose.yml">
+        <settings />
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="docker-compose.yml: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="sourceFilePath" value="docker-compose.yml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
     <configuration default="true" type="docs" factoryName="Docutils task">
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -288,11 +304,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
         <item itemvalue="Gradle.microservices_bot [clean]" />
-        <item itemvalue="Application.DispatcherApplication" />
-        <item itemvalue="Application.MailServiceApplication" />
-        <item itemvalue="Application.NodeApplication" />
-        <item itemvalue="Application.RestServiceApplication" />
+        <item itemvalue="Gradle.microservices_bot [:rest-service:jar]" />
+        <item itemvalue="Gradle.microservices_bot [:rest-service:clean]" />
+        <item itemvalue="Gradle.microservices_bot [jar]" />
       </list>
     </recent_temporary>
   </component>

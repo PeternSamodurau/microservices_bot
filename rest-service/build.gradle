@@ -27,22 +27,37 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-amqp'
+	implementation 'org.telegram:telegrambots-meta:6.9.7.1'
 
-	// связь с другими микросервисами
-	implementation group: 'by.spvrent' , name: 'common-jpa', version: '1.0-SNAPSHOT'
-	implementation group: 'by.spvrent' , name: 'common-utils', version: '1.0-SNAPSHOT'
+	implementation project(':common-jpa')
+	implementation project(':common-utils')
+	implementation project(':common-rabbitmq')
 
-	// https://mvnrepository.com/artifact/commons-io/commons-io
-	implementation("commons-io:commons-io:2.19.0")
+	implementation 'commons-io:commons-io:2.19.0'
 
-	compileOnly 'org.projectlombok:lombok'
-	runtimeOnly 'org.postgresql:postgresql'
-	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-	testImplementation "org.testcontainers:postgresql:1.21.3"
+	compileOnly 'org.projectlombok:lombok:1.18.32'
+	annotationProcessor 'org.projectlombok:lombok:1.18.32'
+
+	runtimeOnly 'org.postgresql:postgresql:42.7.5'
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test:3.4.5'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.10.2'
+	testImplementation 'org.testcontainers:postgresql:1.19.8'
+}
+
+// 🔐 Только исполняемый Spring Boot JAR — без plain
+jar {
+	enabled = false
+}
+
+bootJar {
+	archiveBaseName = "rest-service"
+	archiveVersion = "0.0.1-SNAPSHOT"
+	archiveClassifier = null // убираем "-plain"
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
+	enabled = false
 }
