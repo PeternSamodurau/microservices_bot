@@ -1,8 +1,0 @@
-{
-  "deploy": {
-    "build": {
-      "type": "gradle"
-    },
-    "start": "java -jar dispatcher/build/libs/dispatcher-0.0.1-SNAPSHOT.jar"
-  }
-}
