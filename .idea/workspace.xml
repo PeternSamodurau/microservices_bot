@@ -4,28 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="992c18bf-e61a-41d3-ad68-6b1229c8dcb3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dispatcher/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mail-service/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/node/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rest-service/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rest-service_load_test.jmx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_bot.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gigaide/gigaide.properties" beforeDir="false" afterPath="$PROJECT_DIR$/.gigaide/gigaide.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dbnavigator.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dispatcher/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/dispatcher/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mail-service/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/mail-service/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/node/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/node/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest-service/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/rest-service/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
-    </list>
+    <list default="true" id="992c18bf-e61a-41d3-ad68-6b1229c8dcb3" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
